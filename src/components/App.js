@@ -1,14 +1,19 @@
 import React from 'react';
 import Page from './Page';
 import AddCardpopup from './Popups/AddCardPopup';
+import EditAvatarPopup from './Popups/EditAvatarPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
-function App(props) {
+function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
   const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
+  const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
+
+  const [isAddCardProcessing, setAddCardProcessing] = React.useState(false);
+  const [isEditAvatarProcessing, setEditAvatarProcessing] = React.useState(false);
 
   React.useEffect(() => {
     console.log("load initial data");
@@ -22,57 +27,82 @@ function App(props) {
       .catch((err) => console.error(err));
   }, []);
   
-  function fetchCards() {
+  const fetchCards = () => {
     return api
       .getCards()
       .then((items) => Promise.resolve(items))
       .catch(() => Promise.reject("Failed to fetch cards."));
   }
 
-  function fetchUserInfo() {
+  const fetchUserInfo = () => {
     return api
       .getUserInfo()
       .then((userInfo) => Promise.resolve(userInfo))
       .catch(() => Promise.reject("Failed to set user info."));
-  }
+  };
 
-  function handleEditAvatar(avatar) {
-    api
-      .setAvatar(avatar)
-      .then(
-        (userInfo) => setCurrentUser(userInfo),
-        (err) => console.log(err))
-      .catch(() => console.error("Failed to edit avatar."));
-  }
-
-  function handleAddCardPopupOpen() {
+  const handleAddCardPopupOpen = () => {
     setIsAddCardPopupActive(true);
-  }
+  };
 
-  function handleCloseAllPopups() {
+  const handleEditAvatarPopupOpen = () => {
+    setIsEditAvatarPopupActive(true);
+  };
+
+  const handleCloseAllPopups = () => {
     setIsAddCardPopupActive(false);
-  }
+    setIsEditAvatarPopupActive(false);
+  };
 
-  function handleAddCardSubmit(values) {
+  const handleAddCardSubmit = (values) => {
+    setAddCardProcessing(true);
+
     api
       .addCard(values)
       .then(
-        (newCard) => setCards([newCard, ...cards]),
+        (newCard) => {
+          setCards([newCard, ...cards]);
+          handleCloseAllPopups();
+        },
         (err) => console.log(err))
-      .catch(() => console.error("Failed to add card."));
-  }
+      .catch(() => console.error("Failed to add card."))
+      .finally(() => setAddCardProcessing(false));
+  };
+
+  const handleEditAvatarSubmit = (avatar) => {
+    setEditAvatarProcessing(true);
+
+    api
+      .setAvatar(avatar)
+      .then(
+        (userInfo) => {
+          setCurrentUser(userInfo);
+          handleCloseAllPopups();
+        },
+        (err) => console.log(err))
+      .catch(() => console.error("Failed to edit avatar."))
+      .finally(() => setEditAvatarProcessing(false));  
+  };
 
   console.log("rendering app");
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Page
         onAddCardPopupOpen = {handleAddCardPopupOpen}
+        onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
         cards = {cards}
       />
       <AddCardpopup
         isActive = {isAddCardPopupActive}
+        isProcessing = {isAddCardProcessing}
         onClose = {handleCloseAllPopups}
         onCardAdding = {handleAddCardSubmit}
+      />
+      <EditAvatarPopup
+        isActive = {isEditAvatarPopupActive}
+        isProcessing = {isEditAvatarProcessing}
+        onClose = {handleCloseAllPopups}
+        onCardAdding = {handleEditAvatarSubmit}
       />
     </CurrentUserContext.Provider>
   );

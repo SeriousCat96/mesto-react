@@ -8,9 +8,7 @@ function Form(props) {
     name,
     inputs,
     submitTitle,
-    isActive,
     onSubmit,
-    onClose,
   } = props;
 
   const {
@@ -24,7 +22,6 @@ function Form(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault(evt);
     onSubmit(values);
-    onClose();
   }
   
   const defaultValues = {};
@@ -35,22 +32,10 @@ function Form(props) {
 
   React.useEffect(() => {
     return () => handeResetValidation(defaults);
-  }, [isActive, defaults, handeResetValidation]);
-
-  const Submit = React.useMemo(
-    () => (
-      <button 
-        type = "submit" 
-        className = {`button ${submitClass}${!isValid ? ` ${inactiveSubmitClass}` : ''}`} 
-        disabled = {!isValid}
-      >
-        {submitTitle}
-      </button>
-    ),
-    [isValid, submitTitle]
-  );
+  }, [onSubmit, defaults, handeResetValidation]);
 
   console.log("rendering form");
+  console.log(submitTitle);
   
   return (
     <form
@@ -76,7 +61,13 @@ function Form(props) {
           />
         )
       )}
-      {Submit}
+      <button 
+        type = "submit" 
+        className = {`button ${submitClass}${!isValid ? ` ${inactiveSubmitClass}` : ''}`} 
+        disabled = {!isValid}
+      >
+        {submitTitle}
+      </button>
     </form>
   );
 }

@@ -4,15 +4,10 @@ import Main from './Main';
 import Footer from './Footer';
 
 function Page(props) {
-  const { onAddCardPopupOpen } = props;
-  
   return (
     <div className = "page">
       <Header />
-      <Main
-        cards = {props.cards}
-        onAddCardPopupOpen = {onAddCardPopupOpen}
-      />
+      <Main {...props} />
       <Footer />
     </div>
   )

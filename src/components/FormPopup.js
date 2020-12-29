@@ -7,8 +7,10 @@ function FormPopup(props) {
     id, 
     name, 
     title, 
-    isActive, 
+    isActive,
+    isProcessing,
     submitTitle,
+    processingTitle,
     onSubmit,
     onClose,
     inputs } = props;
@@ -30,14 +32,18 @@ function FormPopup(props) {
       <h2 className="form-view__title">{title}</h2>
       <Form 
         name = {name}
-        submitTitle = {submitTitle}
+        submitTitle = {isProcessing ? processingTitle : submitTitle}
         inputs = {inputs}
         onSubmit = {onSubmit}
-        onClose = {onClose}
-        isActive = {isActive}
       />
     </Popup>
   );
 }
+
+FormPopup.defaultProps = {
+  submitTitle: 'Сохранить',
+  processingTitle: 'Сохранение...',
+  inputs: [],
+};
 
 export default FormPopup;

@@ -3,15 +3,16 @@ import Profile from './Profile';
 import Cards from './Cards';
 
 function Main(props) {
-  const { onAddCardPopupOpen } = props;
+  const { onAddCardPopupOpen, onEditAvatarPopupOpen, cards } = props;
 
   return (
     <main className = "content">
       <Profile
         onAddCardPopupOpen = {onAddCardPopupOpen}
+        onEditAvatarPopupOpen = {onEditAvatarPopupOpen}
       />
       <Cards
-        items = {props.cards}
+        items = {cards}
       />
     </main>
   );
