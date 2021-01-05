@@ -1,6 +1,7 @@
 import React from 'react';
+import { formSelector } from '../utils/constants';
 
-export default function useFormValidation(formClass) {
+export default function useFormValidation() {
   const [values, setValues] = React.useState({});
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
@@ -13,13 +14,12 @@ export default function useFormValidation(formClass) {
     setErrors({ ...errors, [name]: evt.target.validationMessage });
     setIsValid(evt
       .target
-      .closest(`.${formClass}`)
+      .closest(formSelector)
       .checkValidity());    
   }
 
   const handeResetValidation = React.useCallback(
     (values = {}, errors = {}, isValid = false) => {
-      console.warn("reset validation");
       setValues(values);
       setErrors(errors);
       setIsValid(isValid);

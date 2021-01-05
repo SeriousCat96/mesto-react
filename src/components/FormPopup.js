@@ -30,7 +30,7 @@ function FormPopup(props) {
         onClick = {onClose}
       />
       <h2 className="form-view__title">{title}</h2>
-      <Form 
+      <Form
         name = {name}
         submitTitle = {isProcessing ? processingTitle : submitTitle}
         inputs = {inputs}

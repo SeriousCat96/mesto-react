@@ -2,6 +2,7 @@ import React from 'react';
 import Page from './Page';
 import AddCardpopup from './Popups/AddCardPopup';
 import EditAvatarPopup from './Popups/EditAvatarPopup';
+import EditProfilePopup from './Popups/EditProfilePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
@@ -11,9 +12,11 @@ function App() {
 
   const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
   const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
+  const [isEditProfilePopupActive, setIsEditProfilePopupActive] = React.useState(false);
 
   const [isAddCardProcessing, setAddCardProcessing] = React.useState(false);
   const [isEditAvatarProcessing, setEditAvatarProcessing] = React.useState(false);
+  const [isEditProfileProcessing, setEditProfileProcessing] = React.useState(false);
 
   React.useEffect(() => {
     console.log("load initial data");
@@ -49,9 +52,14 @@ function App() {
     setIsEditAvatarPopupActive(true);
   };
 
+  const handleEditProfilePopupOpen = () => {
+    setIsEditProfilePopupActive(true);
+  };
+
   const handleCloseAllPopups = () => {
     setIsAddCardPopupActive(false);
     setIsEditAvatarPopupActive(false);
+    setIsEditProfilePopupActive(false);
   };
 
   const handleAddCardSubmit = (values) => {
@@ -84,12 +92,28 @@ function App() {
       .finally(() => setEditAvatarProcessing(false));  
   };
 
+  const handleEditProfileSubmit = (userInfo) => {
+    setEditProfileProcessing(true);
+
+    api
+      .setUserInfo(userInfo)
+      .then(
+        (userInfo) => {
+          setCurrentUser(userInfo);
+          handleCloseAllPopups();
+        },
+        (err) => console.log(err))
+      .catch(() => console.error("Failed to edit profile."))
+      .finally(() => setEditProfileProcessing(false));  
+  };
+
   console.log("rendering app");
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Page
         onAddCardPopupOpen = {handleAddCardPopupOpen}
         onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
+        onEditProfilePopupOpen = {handleEditProfilePopupOpen}
         cards = {cards}
       />
       <AddCardpopup
@@ -103,6 +127,12 @@ function App() {
         isProcessing = {isEditAvatarProcessing}
         onClose = {handleCloseAllPopups}
         onCardAdding = {handleEditAvatarSubmit}
+      />
+      <EditProfilePopup
+        isActive = {isEditProfilePopupActive}
+        isProcessing = {isEditProfileProcessing}
+        onClose = {handleCloseAllPopups}
+        onProfileEdit = {handleEditProfileSubmit}
       />
     </CurrentUserContext.Provider>
   );

@@ -7,7 +7,10 @@ function Card(props) {
 
   return (
     <article key={item.id} className="card">
-      {item.owner._id === currentUser._id ? (<button className="button card__remove-button" type="button"/>) : ''}
+      {
+        item.owner._id === currentUser._id && 
+        <button className="button card__remove-button" type="button"/>
+      }
       <img className="card__image" src={item.link} alt={`Изображение карточки ${item.name}`} />
       <h2 className="card__caption text-ellipsis">{item.name}</h2>
       <div className="card__like">

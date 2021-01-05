@@ -2,49 +2,47 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inputClass, labelClass, errorClass, inputErrorClass, errorActiveClass } from '../utils/constants';
 
-class Input extends React.PureComponent {
-  render() {
-    const {
-      id,
-      name,
-      type,
-      error,
-      minLength,
-      maxLength,
-      placeholder,
-      value,
-      isInvalid,
-      required,
-      onChange,
-    } = this.props;
-    
-    console.log("render input");
+function Input(props) {
+  const {
+    id,
+    name,
+    type,
+    error,
+    minLength,
+    maxLength,
+    placeholder,
+    value,
+    isInvalid,
+    required,
+    onChange,
+  } = props;
   
-    return (
-      <label className = {labelClass} htmlFor = {id}>
-        <input
-          className = {`${inputClass} ${isInvalid ? ` ${inputErrorClass}` : ''}`}
-          id = {id}
-          name = {name}
-          type = {type}
-          minLength = {minLength}
-          maxLength = {maxLength}
-          placeholder = {placeholder}
-          value = {value}
-          onChange = {onChange}
-          required = {required}
-        />
-        {isInvalid && 
-          <span 
-            className = {`${errorClass}${isInvalid ? ` ${errorActiveClass}` : ''}`}
-            id = {`${id}-error`}
-          >
-            {error}
-          </span>
-        }
-      </label>
-    );
-  }
+  console.log("render input");
+
+  return (
+    <label className = {labelClass} htmlFor = {id}>
+      <input
+        className = {`${inputClass} ${isInvalid ? ` ${inputErrorClass}` : ''}`}
+        id = {id}
+        name = {name}
+        type = {type}
+        minLength = {minLength}
+        maxLength = {maxLength}
+        placeholder = {placeholder}
+        onChange = {onChange}
+        value = {value}
+        required = {required}
+      />
+      {isInvalid && 
+        <span 
+          className = {`${errorClass}${isInvalid ? ` ${errorActiveClass}` : ''}`}
+          id = {`${id}-error`}
+        >
+          {error}
+        </span>
+      }
+    </label>
+  );
 }
 
 Input.defaultProps = {
