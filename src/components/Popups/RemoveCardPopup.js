@@ -11,6 +11,8 @@ function RemoveCardPopup(props) {
       id = "remove-card"
       name = "removeCard"
       title = "Вы уверены?"
+      submitTitle = "Да"
+      processingTitle = "Удаление..."
       isProcessing = {isProcessing}
       isActive = {isActive}
       onSubmit = {onCardRemove}

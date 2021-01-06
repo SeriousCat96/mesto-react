@@ -11,7 +11,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
-  const [removableCard, setRemovableCard] = React.useState(null);
+  const [cardToRemove, setCardToRemove] = React.useState(null);
 
   const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
   const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
@@ -49,6 +49,20 @@ function App() {
       .catch(() => Promise.reject("Failed to set user info."));
   };
 
+  const handleCardLike = (card) => {
+    const isLiked = card.likes.some((like) => like._id === currentUser._id);
+    const setLike = isLiked ? api.unlike : api.like;
+
+    setLike
+      .call(api, card._id)
+      .then(
+        (newCard) => {
+          setCards(cards.map((item) => item._id === card._id ? newCard : item));
+        }
+      )
+      .catch((err) => console.error(err));
+  };
+
   const handleAddCardPopupOpen = () => {
     setIsAddCardPopupActive(true);
   };
@@ -61,9 +75,9 @@ function App() {
     setIsEditProfilePopupActive(true);
   };
 
-  const handleRemoveCardPopupOpen = (card) => {
+  const handleRemoveCardPopupOpen = (cardToRemove) => {
     setIsRemoveCardPopupActive(true);
-    setRemovableCard(card);
+    setCardToRemove(cardToRemove);
   };
 
   const handleCloseAllPopups = () => {
@@ -72,7 +86,7 @@ function App() {
     setIsEditProfilePopupActive(false);
     setIsRemoveCardPopupActive(false);
 
-    setRemovableCard(null);
+    setCardToRemove(null);
   };
 
   const handleAddCardSubmit = (values) => {
@@ -121,14 +135,14 @@ function App() {
   };
 
   const handleRemoveCardSubmit = () => {
-    if(removableCard) {
+    if(cardToRemove) {
       setRemoveCardProcessing(true);
 
       api
-        .deleteCard(removableCard._id)
+        .deleteCard(cardToRemove._id)
         .then(
           () => {
-            setCards(cards.filter((item) => item._id !== removableCard._id));
+            setCards(cards.filter((item) => item._id !== cardToRemove._id));
             handleCloseAllPopups();
           },
           (err) => console.log(err))
@@ -145,6 +159,7 @@ function App() {
         onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
         onEditProfilePopupOpen = {handleEditProfilePopupOpen}
         onRemoveCardPopupOpen = {handleRemoveCardPopupOpen}
+        onCardLike = {handleCardLike}
         cards = {cards}
       />
       <AddCardpopup
