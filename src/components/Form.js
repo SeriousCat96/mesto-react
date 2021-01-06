@@ -1,8 +1,7 @@
 import React from 'react';
 import Input from './Input';
-import { formClass, submitClass, inactiveSubmitClass } from '../utils/constants';
 import useFormValidation from '../hooks/useFormValidation';
-import useFormDefaultValues from '../hooks/useFormDefaultValues';
+import { formClass, submitClass, inactiveSubmitClass } from '../utils/constants';
 
 function Form(props) {
   const {
@@ -21,20 +20,9 @@ function Form(props) {
     values,
     errors,
     isValid,
-    handleChange,
-    handeResetValidation,
-  } = useFormValidation();
+    handleChange
+  } = useFormValidation(inputs, onSubmit);
   
-  const defaults = useFormDefaultValues(inputs);
-
-  React.useEffect(
-    () => {
-      const isValid = Object.keys(defaults).length > 0;
-      handeResetValidation(defaults, {}, isValid);
-    },
-    [defaults, handeResetValidation, onSubmit]
-  );
-
   console.log("rendering form");
   console.log(submitTitle);
   
@@ -43,7 +31,8 @@ function Form(props) {
       name = {name}
       className = {formClass}
       onSubmit = {handleSubmit}
-      noValidate>
+      noValidate
+    >
       {inputs.map(
         (input) => (
           <Input 

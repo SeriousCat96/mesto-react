@@ -33,8 +33,7 @@ function AddCardpopup(props) {
       ]}
       onSubmit = {onCardAdding}
       onClose = {onClose}
-    >
-    </FormPopup>
+    />
   );
 }
 

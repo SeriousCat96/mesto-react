@@ -3,6 +3,7 @@ import Page from './Page';
 import AddCardpopup from './Popups/AddCardPopup';
 import EditAvatarPopup from './Popups/EditAvatarPopup';
 import EditProfilePopup from './Popups/EditProfilePopup';
+import RemoveCardPopup from './Popups/RemoveCardPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
@@ -10,13 +11,17 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
+  const [removableCard, setRemovableCard] = React.useState(null);
+
   const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
   const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
   const [isEditProfilePopupActive, setIsEditProfilePopupActive] = React.useState(false);
+  const [isRemoveCardPopupActive, setIsRemoveCardPopupActive] = React.useState(false);
 
   const [isAddCardProcessing, setAddCardProcessing] = React.useState(false);
   const [isEditAvatarProcessing, setEditAvatarProcessing] = React.useState(false);
   const [isEditProfileProcessing, setEditProfileProcessing] = React.useState(false);
+  const [isRemoveCardProcessing, setRemoveCardProcessing] = React.useState(false);
 
   React.useEffect(() => {
     console.log("load initial data");
@@ -56,10 +61,18 @@ function App() {
     setIsEditProfilePopupActive(true);
   };
 
+  const handleRemoveCardPopupOpen = (card) => {
+    setIsRemoveCardPopupActive(true);
+    setRemovableCard(card);
+  };
+
   const handleCloseAllPopups = () => {
     setIsAddCardPopupActive(false);
     setIsEditAvatarPopupActive(false);
     setIsEditProfilePopupActive(false);
+    setIsRemoveCardPopupActive(false);
+
+    setRemovableCard(null);
   };
 
   const handleAddCardSubmit = (values) => {
@@ -107,6 +120,23 @@ function App() {
       .finally(() => setEditProfileProcessing(false));  
   };
 
+  const handleRemoveCardSubmit = () => {
+    if(removableCard) {
+      setRemoveCardProcessing(true);
+
+      api
+        .deleteCard(removableCard._id)
+        .then(
+          () => {
+            setCards(cards.filter((item) => item._id !== removableCard._id));
+            handleCloseAllPopups();
+          },
+          (err) => console.log(err))
+        .catch(() => console.error("Failed to remove card."))
+        .finally(() => setRemoveCardProcessing(false));  
+    }
+  };
+
   console.log("rendering app");
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -114,6 +144,7 @@ function App() {
         onAddCardPopupOpen = {handleAddCardPopupOpen}
         onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
         onEditProfilePopupOpen = {handleEditProfilePopupOpen}
+        onRemoveCardPopupOpen = {handleRemoveCardPopupOpen}
         cards = {cards}
       />
       <AddCardpopup
@@ -133,6 +164,12 @@ function App() {
         isProcessing = {isEditProfileProcessing}
         onClose = {handleCloseAllPopups}
         onProfileEdit = {handleEditProfileSubmit}
+      />
+      <RemoveCardPopup
+        isActive = {isRemoveCardPopupActive}
+        isProcessing = {isRemoveCardProcessing}
+        onClose = {handleCloseAllPopups}
+        onCardRemove = {handleRemoveCardSubmit}
       />
     </CurrentUserContext.Provider>
   );

@@ -19,10 +19,9 @@ function FormPopup(props) {
 
   return (
     <Popup
-      key = {id}
-      viewClass = "form-view"
       id = {id}
       isActive = {isActive}
+      viewClass = "form-view"
     >
       <button 
         className = "button popup__close-button" 

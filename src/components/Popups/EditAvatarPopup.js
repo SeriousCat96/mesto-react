@@ -24,8 +24,7 @@ function EditAvatarPopup(props) {
       ]}
       onSubmit = {onCardAdding}
       onClose = {onClose}
-    >
-    </FormPopup>
+    />
   );
 }
 
