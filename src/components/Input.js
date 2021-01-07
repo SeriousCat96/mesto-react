@@ -17,7 +17,7 @@ function Input(props) {
     onChange,
   } = props;
   
-  console.log("render input");
+  console.debug("render input");
 
   return (
     <label className = {labelClass} htmlFor = {id}>

@@ -24,8 +24,8 @@ function Form(props) {
     handleChange
   } = useFormValidation(inputs, isActive);
   
-  console.log("rendering form");
-  console.log(submitTitle);
+  console.debug("rendering form");
+  console.debug(submitTitle);
   
   return (
     <form

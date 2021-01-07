@@ -4,7 +4,7 @@ import Popup from './Popup';
 function ImagePreviewPopup(props) {
   const { isActive, selectedCard, onClose } = props;
   
-  console.log("render remove card popup");
+  console.debug("render remove card popup");
   
   return (
     <Popup

@@ -23,7 +23,7 @@ function AddCardpopup(props) {
     }
   ], []);
 
-  console.log("render add card popup");
+  console.debug("render add card popup");
   
   return (
     <FormPopup

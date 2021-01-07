@@ -4,7 +4,7 @@ import FormPopup from '../FormPopup';
 function RemoveCardPopup(props) {
   const { isActive, isProcessing, onCardRemove, onClose } = props;
   
-  console.log("render remove card popup");
+  console.debug("render remove card popup");
   
   return (
     <FormPopup

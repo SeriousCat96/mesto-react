@@ -4,7 +4,7 @@ import FormPopup from '../FormPopup';
 function EditAvatarPopup(props) {
   const { isActive, isProcessing, onCardAdding, onClose } = props;
   
-  console.log("render add card popup");
+  console.debug("render add card popup");
   
   return (
     <FormPopup

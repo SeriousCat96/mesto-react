@@ -30,7 +30,7 @@ export default function useFormValidation(inputs = [], resetTrigger = undefined)
 
   React.useEffect(
     () => {
-      console.log('Reset validation');
+      console.debug('Reset validation');
       const isValid = Object.keys(defaults).length > 0 || inputs.length === 0;
       handeResetValidation(defaults, {}, isValid, inputs);
     },

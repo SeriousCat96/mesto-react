@@ -15,7 +15,7 @@ function FormPopup(props) {
     onClose,
     inputs } = props;
   
-  console.log("Rendering Form Popup");
+  console.debug("Rendering Form Popup");
 
   return (
     <Popup

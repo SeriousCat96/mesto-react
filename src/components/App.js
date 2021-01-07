@@ -44,7 +44,7 @@ function App() {
   );
 
   React.useEffect(() => {
-    console.log("load initial data");
+    console.debug("load initial data");
     Promise.all([fetchUserInfo(), fetchCards()])
       .then(
         (data) => {
@@ -174,7 +174,7 @@ function App() {
     }
   };
 
-  console.log("rendering app");
+  console.debug("rendering app");
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Page

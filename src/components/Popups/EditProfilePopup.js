@@ -28,7 +28,7 @@ function EditProfilePopup(props) {
     }
   ], [about, name]);
 
-  console.log("render edit profile popup");
+  console.debug("render edit profile popup");
   
   return (
     <FormPopup
