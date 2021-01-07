@@ -8,6 +8,7 @@ function Main(props) {
     onEditAvatarPopupOpen, 
     onEditProfilePopupOpen, 
     onRemoveCardPopupOpen,
+    onImagePreviewPopupOpen,
     onCardLike,
     cards } = props;
 
@@ -21,6 +22,7 @@ function Main(props) {
       <Cards
         items = {cards}
         onRemoveCardPopupOpen = {onRemoveCardPopupOpen}
+        onImagePreviewPopupOpen = {onImagePreviewPopupOpen}
         onCardLike = {onCardLike}
       />
     </main>

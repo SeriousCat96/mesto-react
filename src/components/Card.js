@@ -2,7 +2,7 @@ import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card(props) {
-  const { item, onRemoveButtonClick, onCardLike } = props;
+  const { item, onRemoveButtonClick, onCardClick, onCardLike } = props;
   const currentUser = React.useContext(CurrentUserContext);
   const isOwned = item.owner._id === currentUser._id;
   
@@ -20,7 +20,12 @@ function Card(props) {
           onClick = {onRemoveButtonClick.bind(undefined, item)}
         />
       }
-      <img className = "card__image" src={item.link} alt={`Изображение карточки ${item.name}`} />
+      <img 
+        className = "card__image" 
+        src = {item.link} 
+        alt = {`Изображение карточки ${item.name}`}
+        onClick = {onCardClick.bind(undefined, item)} 
+      />
       <h2 className = "card__caption text-ellipsis">{item.name}</h2>
       <div className = "card__like">
         <button 

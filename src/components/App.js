@@ -4,6 +4,7 @@ import AddCardpopup from './Popups/AddCardPopup';
 import EditAvatarPopup from './Popups/EditAvatarPopup';
 import EditProfilePopup from './Popups/EditProfilePopup';
 import RemoveCardPopup from './Popups/RemoveCardPopup';
+import ImagePreviewPopup from './ImagePreviewPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
@@ -11,17 +12,36 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
-  const [cardToRemove, setCardToRemove] = React.useState(null);
+  const [cardToRemove, setCardToRemove] = React.useState({});
+  const [selectedCard, setSelectedCard] = React.useState({});
 
   const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
   const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
   const [isEditProfilePopupActive, setIsEditProfilePopupActive] = React.useState(false);
   const [isRemoveCardPopupActive, setIsRemoveCardPopupActive] = React.useState(false);
+  const [isImagePreviewPopupActive, setIsImagePreviewPopupActive] = React.useState(false);
 
   const [isAddCardProcessing, setAddCardProcessing] = React.useState(false);
   const [isEditAvatarProcessing, setEditAvatarProcessing] = React.useState(false);
   const [isEditProfileProcessing, setEditProfileProcessing] = React.useState(false);
   const [isRemoveCardProcessing, setRemoveCardProcessing] = React.useState(false);
+
+  React.useEffect(
+    () => {
+      const handleEscKeyPressed = (evt) => {
+        evt.preventDefault();
+    
+        if (evt.key === 'Escape') {
+          handleCloseAllPopups();
+        }
+      };
+
+      document.addEventListener('keyup', handleEscKeyPressed);
+
+      return () => document.removeEventListener('keyup', handleEscKeyPressed);
+    },
+    []
+  );
 
   React.useEffect(() => {
     console.log("load initial data");
@@ -34,7 +54,7 @@ function App() {
         })
       .catch((err) => console.error(err));
   }, []);
-  
+
   const fetchCards = () => {
     return api
       .getCards()
@@ -80,13 +100,20 @@ function App() {
     setCardToRemove(cardToRemove);
   };
 
+  const handleImagePreviewPopupOpen = (card) => {
+    setIsImagePreviewPopupActive(true);
+    setSelectedCard(card);
+  };
+
   const handleCloseAllPopups = () => {
     setIsAddCardPopupActive(false);
     setIsEditAvatarPopupActive(false);
     setIsEditProfilePopupActive(false);
     setIsRemoveCardPopupActive(false);
+    setIsImagePreviewPopupActive(false);
 
-    setCardToRemove(null);
+    setCardToRemove({});
+    setSelectedCard({});
   };
 
   const handleAddCardSubmit = (values) => {
@@ -98,8 +125,7 @@ function App() {
         (newCard) => {
           setCards(c => [newCard, ...c]);
           handleCloseAllPopups();
-        },
-        (err) => console.log(err))
+        })
       .catch(() => console.error("Failed to add card."))
       .finally(() => setAddCardProcessing(false));
   };
@@ -113,8 +139,7 @@ function App() {
         (userInfo) => {
           setCurrentUser(userInfo);
           handleCloseAllPopups();
-        },
-        (err) => console.log(err))
+        })
       .catch(() => console.error("Failed to edit avatar."))
       .finally(() => setEditAvatarProcessing(false));  
   };
@@ -128,8 +153,7 @@ function App() {
         (userInfo) => {
           setCurrentUser(userInfo);
           handleCloseAllPopups();
-        },
-        (err) => console.log(err))
+        })
       .catch(() => console.error("Failed to edit profile."))
       .finally(() => setEditProfileProcessing(false));  
   };
@@ -144,8 +168,7 @@ function App() {
           () => {
             setCards(c => c.filter((item) => item._id !== cardToRemove._id));
             handleCloseAllPopups();
-          },
-          (err) => console.log(err))
+          })
         .catch(() => console.error("Failed to remove card."))
         .finally(() => setRemoveCardProcessing(false));  
     }
@@ -159,6 +182,7 @@ function App() {
         onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
         onEditProfilePopupOpen = {handleEditProfilePopupOpen}
         onRemoveCardPopupOpen = {handleRemoveCardPopupOpen}
+        onImagePreviewPopupOpen = {handleImagePreviewPopupOpen}
         onCardLike = {handleCardLike}
         cards = {cards}
       />
@@ -185,6 +209,11 @@ function App() {
         isProcessing = {isRemoveCardProcessing}
         onClose = {handleCloseAllPopups}
         onCardRemove = {handleRemoveCardSubmit}
+      />
+      <ImagePreviewPopup
+        isActive = {isImagePreviewPopupActive}
+        selectedCard = {selectedCard}
+        onClose = {handleCloseAllPopups}
       />
     </CurrentUserContext.Provider>
   );
