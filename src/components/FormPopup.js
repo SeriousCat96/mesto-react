@@ -31,6 +31,7 @@ function FormPopup(props) {
       <h2 className="form-view__title">{title}</h2>
       <Form
         name = {name}
+        isActive = {isActive}
         submitTitle = {isProcessing ? processingTitle : submitTitle}
         inputs = {inputs}
         onSubmit = {onSubmit}
@@ -45,4 +46,9 @@ FormPopup.defaultProps = {
   inputs: [],
 };
 
-export default FormPopup;
+function propsAreEqual(props, nextProps) {
+  return props.isActive === nextProps.isActive && props.isProcessing === nextProps.isProcessing;
+}
+
+export default React.memo(FormPopup, propsAreEqual);
+// export default FormPopup;

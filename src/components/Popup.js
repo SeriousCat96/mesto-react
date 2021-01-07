@@ -14,8 +14,4 @@ function Popup(props) {
   );
 }
 
-function propsAreEqual(props, nextProps) {
-  return props.isActive === nextProps.isActive
-}
-
-export default React.memo(Popup, propsAreEqual);
+export default Popup;

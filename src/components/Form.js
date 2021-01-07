@@ -6,6 +6,7 @@ import { formClass, submitClass, inactiveSubmitClass } from '../utils/constants'
 function Form(props) {
   const {
     name,
+    isActive,
     inputs,
     submitTitle,
     onSubmit,
@@ -21,7 +22,7 @@ function Form(props) {
     errors,
     isValid,
     handleChange
-  } = useFormValidation(inputs, onSubmit);
+  } = useFormValidation(inputs, isActive);
   
   console.log("rendering form");
   console.log(submitTitle);

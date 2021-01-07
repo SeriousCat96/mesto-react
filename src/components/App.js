@@ -50,14 +50,14 @@ function App() {
   };
 
   const handleCardLike = (card) => {
-    const isLiked = card.likes.some((like) => like._id === currentUser._id);
+    const isLiked = card.isUserLiked;
     const setLike = isLiked ? api.unlike : api.like;
 
     setLike
       .call(api, card._id)
       .then(
         (newCard) => {
-          setCards(cards.map((item) => item._id === card._id ? newCard : item));
+          setCards(c => c.map((item) => item._id === card._id ? newCard : item));
         }
       )
       .catch((err) => console.error(err));
@@ -96,7 +96,7 @@ function App() {
       .addCard(values)
       .then(
         (newCard) => {
-          setCards([newCard, ...cards]);
+          setCards(c => [newCard, ...c]);
           handleCloseAllPopups();
         },
         (err) => console.log(err))
@@ -142,7 +142,7 @@ function App() {
         .deleteCard(cardToRemove._id)
         .then(
           () => {
-            setCards(cards.filter((item) => item._id !== cardToRemove._id));
+            setCards(c => c.filter((item) => item._id !== cardToRemove._id));
             handleCloseAllPopups();
           },
           (err) => console.log(err))
