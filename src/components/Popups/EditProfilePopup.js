@@ -1,11 +1,9 @@
 import React from 'react';
-import FormPopup from '../FormPopup';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import PopupWithForm from '../PopupWithForm';
 
 function EditProfilePopup(props) {
-  const { isActive, isProcessing, onProfileEdit, onClose } = props;
-  const { name, about } = React.useContext(CurrentUserContext);
-  const inputs = React.useMemo(() => [
+  const { isOpen, onClose } = props;
+  const inputs =  [
     {
       id: 'name',
       name: 'name',
@@ -13,7 +11,6 @@ function EditProfilePopup(props) {
       placeholder: 'Имя',
       minLength: 2,
       maxLength: 40,
-      value: name,
       required: true,
     },
     {
@@ -23,22 +20,19 @@ function EditProfilePopup(props) {
       placeholder: 'О себе',
       minLength: 2,
       maxLength: 200,
-      value: about,
       required: true,
     }
-  ], [about, name]);
+  ];
 
   console.debug("render edit profile popup");
   
   return (
-    <FormPopup
+    <PopupWithForm
       id = "edit-profile"
       name = "profile"
       title = "Редактировать профиль"
-      isProcessing = {isProcessing}
-      isActive = {isActive}
+      isOpen = {isOpen}
       inputs = {inputs}
-      onSubmit = {onProfileEdit}
       onClose = {onClose}
     />
   );

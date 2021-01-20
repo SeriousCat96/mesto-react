@@ -2,15 +2,13 @@ import React from 'react';
 import Popup from './Popup';
 import Form from './Form';
 
-function FormPopup(props) {
+function PopupWithForm(props) {
   const { 
     id, 
     name, 
     title, 
-    isActive,
-    isProcessing,
+    isOpen,
     submitTitle,
-    processingTitle,
     onSubmit,
     onClose,
     inputs } = props;
@@ -20,7 +18,7 @@ function FormPopup(props) {
   return (
     <Popup
       id = {id}
-      isActive = {isActive}
+      isOpen = {isOpen}
       onClose = {onClose}
       viewClass = "form-view"
     >
@@ -32,8 +30,8 @@ function FormPopup(props) {
       <h2 className="form-view__title">{title}</h2>
       <Form
         name = {name}
-        isActive = {isActive}
-        submitTitle = {isProcessing ? processingTitle : submitTitle}
+        isOpen = {isOpen}
+        submitTitle = {submitTitle}
         inputs = {inputs}
         onSubmit = {onSubmit}
       />
@@ -41,15 +39,13 @@ function FormPopup(props) {
   );
 }
 
-FormPopup.defaultProps = {
+PopupWithForm.defaultProps = {
   submitTitle: 'Сохранить',
-  processingTitle: 'Сохранение...',
   inputs: [],
 };
 
 function propsAreEqual(props, nextProps) {
-  return props.isActive === nextProps.isActive && props.isProcessing === nextProps.isProcessing;
+  return props.isOpen === nextProps.isOpen && props.isProcessing === nextProps.isProcessing;
 }
 
-export default React.memo(FormPopup, propsAreEqual);
-// export default FormPopup;
+export default React.memo(PopupWithForm, propsAreEqual);

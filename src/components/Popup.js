@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Popup(props) {
-  const { id, children, isActive, viewClass, onClose } = props;
+  const { id, children, isOpen, viewClass, onClose } = props;
 
   console.debug("render popup");
 
@@ -13,7 +13,7 @@ function Popup(props) {
 
   return (
     <section 
-      className = {`popup${isActive ? " popup_active" : ""}`} 
+      className = {`popup${isOpen ? " popup_Open" : ""}`} 
       id = { id }
       onMouseDown = {handlePopupOverlayMouseDown}
     >
