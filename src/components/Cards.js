@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 
 function Cards(props) {
-  const { items, onRemoveCardPopupOpen, onImagePreviewPopupOpen, onCardLike } = props;
+  const { items, onRemoveCardPopupOpen, onImagePopupOpen, onCardLike } = props;
   
   return (
     <section className="cards-grid page__section page__section_indent-size_m">
@@ -12,7 +12,7 @@ function Cards(props) {
           <Card 
             item = {item} 
             onRemoveButtonClick = {onRemoveCardPopupOpen}
-            onCardClick = {onImagePreviewPopupOpen}
+            onCardClick = {onImagePopupOpen}
             onCardLike = {onCardLike}
           />
         </li>
