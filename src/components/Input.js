@@ -10,6 +10,7 @@ function Input(props) {
     minLength,
     maxLength,
     placeholder,
+    value,
     required,
   } = props;
   
@@ -25,6 +26,7 @@ function Input(props) {
         minLength = {minLength}
         maxLength = {maxLength}
         placeholder = {placeholder}
+        value = {value}
         required = {required}
       />
     </label>
@@ -33,12 +35,14 @@ function Input(props) {
 
 Input.defaultProps = {
   type: 'text',
+  value: '',
   required: true,
   autoComplete: 'off',
 };
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   minLength: PropTypes.number,

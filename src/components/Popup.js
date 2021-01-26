@@ -13,7 +13,7 @@ function Popup(props) {
 
   return (
     <section 
-      className = {`popup${isOpen ? " popup_active" : ""}`} 
+      className = {`popup${isOpen ? " popup_Open" : ""}`} 
       id = { id }
       onMouseDown = {handlePopupOverlayMouseDown}
     >
