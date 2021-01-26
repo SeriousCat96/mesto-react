@@ -1,17 +1,18 @@
 import React from 'react';
-import PopupWithForm from '../PopupWithForm';
+import FormPopup from '../FormPopup';
 
 function EditAvatarPopup(props) {
-  const { isOpen, onClose } = props;
+  const { isActive, isProcessing, onCardAdding, onClose } = props;
   
   console.debug("render add card popup");
   
   return (
-    <PopupWithForm
+    <FormPopup
       id = "edit-avatar"
       name = "avatar"
       title = "Обновить аватар"
-      isOpen = {isOpen}
+      isProcessing = {isProcessing}
+      isActive = {isActive}
       inputs = {[
         {
             id: 'avatar-link',
@@ -21,6 +22,7 @@ function EditAvatarPopup(props) {
             required: true,
         }
       ]}
+      onSubmit = {onCardAdding}
       onClose = {onClose}
     />
   );

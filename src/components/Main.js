@@ -4,28 +4,26 @@ import Cards from './Cards';
 
 function Main(props) {
   const { 
-    userName,
-    userDescription,
-    userAvatar,
-    onAddPlacePopupOpen,
+    onAddCardPopupOpen,
     onEditAvatarPopupOpen, 
     onEditProfilePopupOpen, 
-    onCardClick,
+    onRemoveCardPopupOpen,
+    onImagePreviewPopupOpen,
+    onCardLike,
     cards } = props;
 
   return (
     <main className = "content">
       <Profile
-        userName = {userName}
-        userDescription = {userDescription}
-        userAvatar = {userAvatar}
-        onAddPlacePopupOpen = {onAddPlacePopupOpen}
+        onAddCardPopupOpen = {onAddCardPopupOpen}
         onEditAvatarPopupOpen = {onEditAvatarPopupOpen}
         onEditProfilePopupOpen = {onEditProfilePopupOpen}
       />
       <Cards
         items = {cards}
-        onCardClick = {onCardClick}
+        onRemoveCardPopupOpen = {onRemoveCardPopupOpen}
+        onImagePreviewPopupOpen = {onImagePreviewPopupOpen}
+        onCardLike = {onCardLike}
       />
     </main>
   );

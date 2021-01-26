@@ -1,8 +1,8 @@
 import React from 'react';
-import PopupWithForm from '../PopupWithForm';
+import FormPopup from '../FormPopup';
 
-function AddPlacePopup(props) {
-  const { isOpen, onClose } = props;
+function AddCardpopup(props) {
+  const { isActive, isProcessing, onCardAdding, onClose } = props;
   
   const inputs = React.useMemo(() => [
     {
@@ -26,15 +26,17 @@ function AddPlacePopup(props) {
   console.debug("render add card popup");
   
   return (
-    <PopupWithForm
+    <FormPopup
       id = "add-card"
       name = "card"
       title = "Новое место"
-      isOpen = {isOpen}
+      isActive = {isActive}
+      isProcessing = {isProcessing}
       inputs = {inputs}
+      onSubmit = {onCardAdding}
       onClose = {onClose}
     />
   );
 }
 
-export default AddPlacePopup;
+export default AddCardpopup;

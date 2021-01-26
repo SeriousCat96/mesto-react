@@ -1,13 +1,9 @@
 import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Profile(props) {
-  const { 
-    userName,
-    userDescription,
-    userAvatar, 
-    onAddPlacePopupOpen,
-    onEditAvatarPopupOpen, 
-    onEditProfilePopupOpen } = props;
+  const { avatar, name, about } = React.useContext(CurrentUserContext);
+  const { onAddCardPopupOpen, onEditAvatarPopupOpen, onEditProfilePopupOpen } = props;
 
   return (
     <section className = "profile page__section page__section_indent-size_m">
@@ -17,11 +13,11 @@ function Profile(props) {
           type = "button"
           onClick = {onEditAvatarPopupOpen}
         />
-        <img className = "profile__image" src = {userAvatar} alt = "Аватар" />
+        <img className = "profile__image" src = {avatar} alt = "Аватар" />
       </div>
       <div className = "profile__info">
-        <h1 className = "profile__title text-ellipsis">{userName}</h1>
-        <p className = "profile__subtitle text-ellipsis">{userDescription}</p>
+        <h1 className = "profile__title text-ellipsis">{name}</h1>
+        <p className = "profile__subtitle text-ellipsis">{about}</p>
         <button 
           className = "button profile__button profile__button_type_edit" 
           type = "button"
@@ -31,7 +27,7 @@ function Profile(props) {
       <button 
         className = "button profile__button profile__button_type_add" 
         type = "button"
-        onClick = {onAddPlacePopupOpen}
+        onClick = {onAddCardPopupOpen}
       />
     </section>
   );
