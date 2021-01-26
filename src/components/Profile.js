@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Profile(props) {
   const { avatar, name, about } = React.useContext(CurrentUserContext);
-  const { onAddCardPopupOpen, onEditAvatarPopupOpen, onEditProfilePopupOpen } = props;
+  const { onAddPlacePopupOpen, onEditAvatarPopupOpen, onEditProfilePopupOpen } = props;
 
   return (
     <section className = "profile page__section page__section_indent-size_m">
@@ -27,7 +27,7 @@ function Profile(props) {
       <button 
         className = "button profile__button profile__button_type_add" 
         type = "button"
-        onClick = {onAddCardPopupOpen}
+        onClick = {onAddPlacePopupOpen}
       />
     </section>
   );

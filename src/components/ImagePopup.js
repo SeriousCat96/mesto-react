@@ -1,7 +1,7 @@
 import React from 'react';
 import Popup from './Popup';
 
-function ImagePreviewPopup(props) {
+function ImagePopup(props) {
   const { isActive, selectedCard, onClose } = props;
   
   console.debug("render remove card popup");
@@ -32,4 +32,4 @@ function ImagePreviewPopup(props) {
   );
 }
 
-export default ImagePreviewPopup;
+export default ImagePopup;

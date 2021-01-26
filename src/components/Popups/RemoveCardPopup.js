@@ -1,5 +1,5 @@
 import React from 'react';
-import FormPopup from '../FormPopup';
+import PopupWithForm from '../PopupWithForm';
 
 function RemoveCardPopup(props) {
   const { isActive, isProcessing, onCardRemove, onClose } = props;
@@ -7,7 +7,7 @@ function RemoveCardPopup(props) {
   console.debug("render remove card popup");
   
   return (
-    <FormPopup
+    <PopupWithForm
       id = "remove-card"
       name = "removeCard"
       title = "Вы уверены?"

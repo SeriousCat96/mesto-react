@@ -1,6 +1,6 @@
 export const editAvatarPopupSelector = '.popup#edit-avatar';
 export const editProfilePopupSelector = '.popup#edit-profile';
-export const addCardPopupSelector = '.popup#add-card';
+export const AddPlacePopupSelector = '.popup#add-card';
 export const removeCardPopupSelector = '.popup#remove-card';
 export const cardPreviewPopupSelector = '.popup#card-preview';
 export const likePopupSelector = '.likes-view';

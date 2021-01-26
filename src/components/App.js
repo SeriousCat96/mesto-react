@@ -1,10 +1,10 @@
 import React from 'react';
 import Page from './Page';
-import AddCardpopup from './Popups/AddCardPopup';
+import AddPlacePopup from './Popups/AddPlacePopup';
 import EditAvatarPopup from './Popups/EditAvatarPopup';
 import EditProfilePopup from './Popups/EditProfilePopup';
 import RemoveCardPopup from './Popups/RemoveCardPopup';
-import ImagePreviewPopup from './ImagePreviewPopup';
+import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
@@ -15,11 +15,11 @@ function App() {
   const [cardToRemove, setCardToRemove] = React.useState({});
   const [selectedCard, setSelectedCard] = React.useState({});
 
-  const [isAddCardPopupActive, setIsAddCardPopupActive] = React.useState(false);
+  const [isAddPlacePopupActive, setIsAddPlacePopupActive] = React.useState(false);
   const [isEditAvatarPopupActive, setIsEditAvatarPopupActive] = React.useState(false);
   const [isEditProfilePopupActive, setIsEditProfilePopupActive] = React.useState(false);
   const [isRemoveCardPopupActive, setIsRemoveCardPopupActive] = React.useState(false);
-  const [isImagePreviewPopupActive, setIsImagePreviewPopupActive] = React.useState(false);
+  const [isImagePopupActive, setIsImagePopupActive] = React.useState(false);
 
   const [isAddCardProcessing, setAddCardProcessing] = React.useState(false);
   const [isEditAvatarProcessing, setEditAvatarProcessing] = React.useState(false);
@@ -71,10 +71,9 @@ function App() {
 
   const handleCardLike = (card) => {
     const isLiked = card.isUserLiked;
-    const setLike = isLiked ? api.unlike : api.like;
+    const setLike = isLiked ? api.unlike.bind(api) : api.like.bind(api);
 
-    setLike
-      .call(api, card._id)
+    setLike(card._id)
       .then(
         (newCard) => {
           setCards(c => c.map((item) => item._id === card._id ? newCard : item));
@@ -83,8 +82,8 @@ function App() {
       .catch((err) => console.error(err));
   };
 
-  const handleAddCardPopupOpen = () => {
-    setIsAddCardPopupActive(true);
+  const handleAddPlacePopupOpen = () => {
+    setIsAddPlacePopupActive(true);
   };
 
   const handleEditAvatarPopupOpen = () => {
@@ -100,23 +99,23 @@ function App() {
     setCardToRemove(cardToRemove);
   };
 
-  const handleImagePreviewPopupOpen = (card) => {
-    setIsImagePreviewPopupActive(true);
+  const handleImagePopupOpen = (card) => {
+    setIsImagePopupActive(true);
     setSelectedCard(card);
   };
 
   const handleCloseAllPopups = () => {
-    setIsAddCardPopupActive(false);
+    setIsAddPlacePopupActive(false);
     setIsEditAvatarPopupActive(false);
     setIsEditProfilePopupActive(false);
     setIsRemoveCardPopupActive(false);
-    setIsImagePreviewPopupActive(false);
+    setIsImagePopupActive(false);
 
     setCardToRemove({});
     setSelectedCard({});
   };
 
-  const handleAddCardSubmit = (values) => {
+  const handleAddPlace = (values) => {
     setAddCardProcessing(true);
 
     api
@@ -130,7 +129,7 @@ function App() {
       .finally(() => setAddCardProcessing(false));
   };
 
-  const handleEditAvatarSubmit = (avatar) => {
+  const handleEditAvatar = (avatar) => {
     setEditAvatarProcessing(true);
 
     api
@@ -144,7 +143,7 @@ function App() {
       .finally(() => setEditAvatarProcessing(false));  
   };
 
-  const handleEditProfileSubmit = (userInfo) => {
+  const handleEditProfile = (userInfo) => {
     setEditProfileProcessing(true);
 
     api
@@ -158,7 +157,7 @@ function App() {
       .finally(() => setEditProfileProcessing(false));  
   };
 
-  const handleRemoveCardSubmit = () => {
+  const handleCardRemove = () => {
     if(cardToRemove) {
       setRemoveCardProcessing(true);
 
@@ -178,40 +177,40 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Page
-        onAddCardPopupOpen = {handleAddCardPopupOpen}
+        onAddPlacePopupOpen = {handleAddPlacePopupOpen}
         onEditAvatarPopupOpen = {handleEditAvatarPopupOpen}
         onEditProfilePopupOpen = {handleEditProfilePopupOpen}
         onRemoveCardPopupOpen = {handleRemoveCardPopupOpen}
-        onImagePreviewPopupOpen = {handleImagePreviewPopupOpen}
+        onImagePopupOpen = {handleImagePopupOpen}
         onCardLike = {handleCardLike}
         cards = {cards}
       />
-      <AddCardpopup
-        isActive = {isAddCardPopupActive}
+      <AddPlacePopup
+        isActive = {isAddPlacePopupActive}
         isProcessing = {isAddCardProcessing}
         onClose = {handleCloseAllPopups}
-        onCardAdding = {handleAddCardSubmit}
+        onAddPlace = {handleAddPlace}
       />
       <EditAvatarPopup
         isActive = {isEditAvatarPopupActive}
         isProcessing = {isEditAvatarProcessing}
         onClose = {handleCloseAllPopups}
-        onCardAdding = {handleEditAvatarSubmit}
+        onEditAvatar = {handleEditAvatar}
       />
       <EditProfilePopup
         isActive = {isEditProfilePopupActive}
         isProcessing = {isEditProfileProcessing}
         onClose = {handleCloseAllPopups}
-        onProfileEdit = {handleEditProfileSubmit}
+        onEditProfile = {handleEditProfile}
       />
       <RemoveCardPopup
         isActive = {isRemoveCardPopupActive}
         isProcessing = {isRemoveCardProcessing}
         onClose = {handleCloseAllPopups}
-        onCardRemove = {handleRemoveCardSubmit}
+        onCardRemove = {handleCardRemove}
       />
-      <ImagePreviewPopup
-        isActive = {isImagePreviewPopupActive}
+      <ImagePopup
+        isActive = {isImagePopupActive}
         selectedCard = {selectedCard}
         onClose = {handleCloseAllPopups}
       />
