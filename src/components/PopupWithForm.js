@@ -7,8 +7,10 @@ function PopupWithForm(props) {
     id, 
     name, 
     title, 
-    isOpen,
+    isActive,
+    isProcessing,
     submitTitle,
+    processingTitle,
     onSubmit,
     onClose,
     inputs } = props;
@@ -18,7 +20,7 @@ function PopupWithForm(props) {
   return (
     <Popup
       id = {id}
-      isOpen = {isOpen}
+      isActive = {isActive}
       onClose = {onClose}
       viewClass = "form-view"
     >
@@ -30,8 +32,8 @@ function PopupWithForm(props) {
       <h2 className="form-view__title">{title}</h2>
       <Form
         name = {name}
-        isOpen = {isOpen}
-        submitTitle = {submitTitle}
+        isActive = {isActive}
+        submitTitle = {isProcessing ? processingTitle : submitTitle}
         inputs = {inputs}
         onSubmit = {onSubmit}
       />
@@ -41,11 +43,12 @@ function PopupWithForm(props) {
 
 PopupWithForm.defaultProps = {
   submitTitle: 'Сохранить',
+  processingTitle: 'Сохранение...',
   inputs: [],
 };
 
 function propsAreEqual(props, nextProps) {
-  return props.isOpen === nextProps.isOpen && props.isProcessing === nextProps.isProcessing;
+  return props.isActive === nextProps.isActive && props.isProcessing === nextProps.isProcessing;
 }
 
 export default React.memo(PopupWithForm, propsAreEqual);

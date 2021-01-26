@@ -20,7 +20,7 @@ export default class Api {
    * @param {Object} cardData Данные карточки.
    * @returns {Promise} Результат запроса.
    */
-  AddPlace(cardData) {
+  addCard(cardData) {
     const headers = { ...this._headers, 'Content-Type': 'application/json' };
 
     return this

@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from '../PopupWithForm';
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose } = props;
+  const { isActive, isProcessing, onAddPlace, onClose } = props;
   
   const inputs = React.useMemo(() => [
     {
@@ -30,8 +30,10 @@ function AddPlacePopup(props) {
       id = "add-card"
       name = "card"
       title = "Новое место"
-      isOpen = {isOpen}
+      isActive = {isActive}
+      isProcessing = {isProcessing}
       inputs = {inputs}
+      onSubmit = {onAddPlace}
       onClose = {onClose}
     />
   );
